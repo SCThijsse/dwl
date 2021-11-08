@@ -1797,6 +1797,12 @@ resize(Client *c, int x, int y, int w, int h, int interact)
 	c->geom.y = y;
 	c->geom.width = w;
 	c->geom.height = h;
+	c->bw = borderpx;
+	if ((wl_list_length(&clients) == 1
+			|| &monocle == c->mon->lt[c->mon->sellt]->arrange)
+			&& !c->isfullscreen && !c->isfloating) {
+		c->bw = 0;
+	}
 	applybounds(c, bbox);
 	/* wlroots makes this a no-op if size hasn't changed */
 	c->resize = client_set_size(c, c->geom.width - 2 * c->bw,
